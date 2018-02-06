@@ -1,0 +1,64 @@
+﻿<Window x:Class="mvvm_exercise.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:mvvm_exercise"
+        xmlns:vm="clr-namespace:mvvm_exercise.ViewModel"
+        mc:Ignorable="d"
+        Title="mvvm_exercise" Height="375" Width="550" ResizeMode="CanMinimize">
+    <Window.DataContext>
+        <vm:MvvmExerciseViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <vm:FontSizeConverter x:Key="font2fontsize"/>
+    </Window.Resources>
+    <Grid>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center" Height="260" VerticalAlignment="Center" Width="490" Margin="10,40,10,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Label Content="Default Name" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,0,0,0" Height="30"/>
+                <Label Content="Font Size" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,0,0,0"/>
+                <Label Content="Options" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,0,0,0"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Height="22" Width="220" Text="{Binding DefaultName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         FontSize="{Binding FontSize, Mode=OneWay, Converter={StaticResource font2fontsize}}" TextWrapping="Wrap"/>
+                <ComboBox Grid.Row="1" Grid.Column="1" Height="22" Width="220" SelectedIndex="{Binding FontSize, Mode=TwoWay}">
+                    <ComboBoxItem Name="small">Small</ComboBoxItem>
+                    <ComboBoxItem Name="medium">Medium</ComboBoxItem>
+                    <ComboBoxItem Name="big">Big</ComboBoxItem>
+                    <ComboBoxItem Name="super">Super</ComboBoxItem>
+                </ComboBox>
+                <Button Content="Ok" Grid.Row="0" Grid.Column="2" Height="20" Width="60" Command="{Binding Ok}"/>
+                <Button Content="Cancel" Grid.Row="1" Grid.Column="2" Height="20" Width="60" Command="{Binding Cancel}"/>
+                <Button Content="Reset" Grid.Row="3" Grid.ColumnSpan="3" Height="20" Width="80" Command="{Binding Reset}"/>
+                <Border BorderBrush="Black" BorderThickness="1" Grid.Row="2" Grid.Column="1" Margin="10,10,10,10">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <CheckBox x:Name="start" Content="Start" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" 
+                                  IsChecked="{Binding Start, Mode=TwoWay}"/>
+                        <CheckBox Content="AutoStart" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" 
+                                  IsEnabled="{Binding ElementName=start, Path=IsChecked}"
+                                  IsChecked="{Binding AutoStart, Mode=TwoWay}"/>
+                        <CheckBox Content="Dynamic Colors" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0" 
+                                  IsChecked="{Binding DynamicColors, Mode=TwoWay}"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+        <Label Content="Settings" HorizontalAlignment="Center" Margin="10,15,0,0" VerticalAlignment="Top" />
+    </Grid>
+</Window>
